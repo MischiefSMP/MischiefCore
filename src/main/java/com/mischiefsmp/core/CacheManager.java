@@ -1,9 +1,7 @@
 package com.mischiefsmp.core;
 
-import com.google.common.cache.Cache;
 import com.mischiefsmp.core.utils.KeyValueStorage;
 import com.mischiefsmp.core.utils.TimeUtils;
-import com.mischiefsmp.core.utils.Utils;
 import org.bukkit.plugin.Plugin;
 
 import java.util.HashMap;
