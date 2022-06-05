@@ -1,6 +1,5 @@
 package com.mischiefsmp.core.utils;
 
-import com.mischiefsmp.core.utils.UsernameInfo;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -28,15 +27,15 @@ public class MCUtils {
                 new BigInteger(uuid.substring(16), 16).longValue());
     }
 
-    public static ArrayList<UsernameInfo> getUsernameInfo(UUID uuid) {
+    public static ArrayList<KeyValueStorage<String, Long>> getUsernameInfo(UUID uuid) {
         String rawString = getJSONFromURL(String.format(USERNAME_API, uuid));
         if(rawString != null) {
-            ArrayList<UsernameInfo> info = new ArrayList<>();
+            ArrayList<KeyValueStorage<String, Long>> info = new ArrayList<>();
             JSONArray jsonData = new JSONArray(rawString);
             for (int i = 0; i < jsonData.length(); i++) {
                 JSONObject data = jsonData.getJSONObject(i);
                 long changedAt = data.has("changedToAt") ? data.getLong("changedToAt") : -1;
-                info.add(new UsernameInfo(data.getString("name"), changedAt));
+                info.add(new KeyValueStorage<>(data.getString("name"), changedAt));
             }
             return info;
         }
