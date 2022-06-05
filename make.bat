@@ -10,7 +10,7 @@ REM cd %~dp0
 REM java -jar paper.jar -nogui
 REM exit
 
-set serverFolder=G:\Programming\Minecraft\TestServer\
+set serverFolder=<server-dir>
 set projectName=MischiefCore
 set startFile="start.bat"
 
