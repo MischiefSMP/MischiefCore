@@ -1,4 +1,4 @@
-package com.mischiefsmp.core;
+package com.mischiefsmp.core.utils;
 
 import com.mischiefsmp.core.utils.UsernameInfo;
 import org.json.JSONArray;
@@ -14,11 +14,11 @@ import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class MCUtils implements IMCUtils {
+public class MCUtils {
     private static final String UUID_API = "https://api.mojang.com/users/profiles/minecraft/%s";
     private static final String USERNAME_API = "https://api.mojang.com/user/profiles/%s/names";
 
-    public UUID UUIDFromString(String uuid) {
+    public static UUID UUIDFromString(String uuid) {
         if(uuid == null)
             return null;
 
@@ -28,7 +28,7 @@ public class MCUtils implements IMCUtils {
                 new BigInteger(uuid.substring(16), 16).longValue());
     }
 
-    public ArrayList<UsernameInfo> getUsernameInfo(UUID uuid) {
+    public static ArrayList<UsernameInfo> getUsernameInfo(UUID uuid) {
         String rawString = getJSONFromURL(String.format(USERNAME_API, uuid));
         if(rawString != null) {
             ArrayList<UsernameInfo> info = new ArrayList<>();
@@ -43,15 +43,14 @@ public class MCUtils implements IMCUtils {
         return null;
     }
 
-    public UUID getUserUUID(String username) {
+    public static UUID getUserUUID(String username) {
         String rawString = getJSONFromURL(String.format(UUID_API, username));
-        if(rawString != null) {
+        if(rawString != null)
             return UUIDFromString(new JSONObject(rawString).getString("id"));
-        }
         return null;
     }
 
-    private String getJSONFromURL(String url) {
+    private static String getJSONFromURL(String url) {
         try {
             HttpRequest request = HttpRequest.newBuilder(new URI(url)).header("accept", "application/json").build();
             HttpClient client = HttpClient.newHttpClient();
