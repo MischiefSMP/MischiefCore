@@ -29,7 +29,7 @@ dependencies {
 
 jar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    //https://stackoverflow.com/questions/52816630/unable-to-create-a-jar-of-my-jda-project-because-of-pom-dependency
+    //https://stackoverflow.com/a/52818011/9179831
 
     from {
         configurations
