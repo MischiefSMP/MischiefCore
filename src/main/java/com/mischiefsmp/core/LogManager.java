@@ -5,17 +5,19 @@ import org.bukkit.plugin.Plugin;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class LogManager {
+class LogManager implements ILogManager {
     private final Logger logger;
 
     public LogManager(Plugin plugin) {
         logger = plugin.getLogger();
     }
 
+    @Override
     public void log(Object message, Object... args) {
         log(message, Level.INFO, args);
     }
 
+    @Override
     public void log(Object message, Level level, Object... args) {
         String msg = "null";
         if(message != null)
