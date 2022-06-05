@@ -23,6 +23,11 @@ public class CacheManager {
         this.lifetime = lifetime;
     }
 
+    public String getString(Object key) {
+        Object obj = get(key);
+        return obj != null ? obj.toString() : null;
+    }
+
     public Object get(Object key) {
         KeyValueStorage<Long, Object> item = data.get(key);
         if(item == null)
