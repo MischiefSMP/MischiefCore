@@ -29,45 +29,36 @@ public class MCUtils implements IMCUtils {
     }
 
     public ArrayList<UsernameInfo> getUsernameInfo(UUID uuid) {
-        try {
-            URI url = new URI(String.format(USERNAME_API, uuid));
-            HttpRequest request = HttpRequest.newBuilder(url).header("accept", "application/json").build();
-            HttpClient client = HttpClient.newHttpClient();
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-            if(response.statusCode() != 200) {
-                return null;
-            }
-
+        String rawString = getJSONFromURL(String.format(USERNAME_API, uuid));
+        if(rawString != null) {
             ArrayList<UsernameInfo> info = new ArrayList<>();
-            JSONArray jsonData = new JSONArray(response.body());
-            for(int i = 0; i < jsonData.length(); i++) {
+            JSONArray jsonData = new JSONArray(rawString);
+            for (int i = 0; i < jsonData.length(); i++) {
                 JSONObject data = jsonData.getJSONObject(i);
                 long changedAt = data.has("changedToAt") ? data.getLong("changedToAt") : -1;
                 info.add(new UsernameInfo(data.getString("name"), changedAt));
             }
             return info;
-        } catch (URISyntaxException | IOException | InterruptedException e) {
-            e.printStackTrace();
         }
-
         return null;
     }
 
     public UUID getUserUUID(String username) {
+        String rawString = getJSONFromURL(String.format(UUID_API, username));
+        if(rawString != null) {
+            return UUIDFromString(new JSONObject(rawString).getString("id"));
+        }
+        return null;
+    }
+
+    private String getJSONFromURL(String url) {
         try {
-            URI url = new URI(String.format(UUID_API, username));
-            HttpRequest request = HttpRequest.newBuilder(url).header("accept", "application/json").build();
+            HttpRequest request = HttpRequest.newBuilder(new URI(url)).header("accept", "application/json").build();
             HttpClient client = HttpClient.newHttpClient();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            if(response.statusCode() != 200) {
-                return null;
-            }
-
-            JSONObject jsonResponse = new JSONObject(response.body());
-            return UUIDFromString(jsonResponse.getString("id"));
-        } catch (URISyntaxException | IOException | InterruptedException e) {
+            return response.statusCode() == 200 ? response.body() : null;
+        } catch(URISyntaxException | IOException | InterruptedException e) {
             e.printStackTrace();
         }
         return null;
