@@ -34,7 +34,7 @@ public class CacheManager {
             return null;
 
         //Expired
-        if(item.key() > TimeUtils.getUnixTime()) {
+        if(TimeUtils.getUnixTime() > item.key()) {
             remove(key);
             return null;
         }
