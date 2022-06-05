@@ -2,6 +2,7 @@ package com.mischiefsmp.core;
 
 import com.google.common.cache.Cache;
 import com.mischiefsmp.core.utils.KeyValueStorage;
+import com.mischiefsmp.core.utils.TimeUtils;
 import com.mischiefsmp.core.utils.Utils;
 import org.bukkit.plugin.Plugin;
 
@@ -30,7 +31,7 @@ public class CacheManager {
             return null;
 
         //Expired
-        if(item.key() > Utils.getUnixTime()) {
+        if(item.key() > TimeUtils.getUnixTime()) {
             remove(key);
             return null;
         }
@@ -45,7 +46,7 @@ public class CacheManager {
 
     //Provide different lifetime
     public void put(Object key, Object value, long lifetime) {
-        long dieWhen = lifetime < 0 ? Long.MAX_VALUE : Utils.getUnixTime() + lifetime;
+        long dieWhen = lifetime < 0 ? Long.MAX_VALUE : TimeUtils.getUnixTime() + lifetime;
         data.put(key, new KeyValueStorage<>(dieWhen, value));
     }
 
