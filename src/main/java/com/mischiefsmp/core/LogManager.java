@@ -12,13 +12,24 @@ class LogManager implements ILogManager {
         logger = plugin.getLogger();
     }
 
+
     @Override
-    public void log(Object message, Object... args) {
-        log(message, Level.INFO, args);
+    public void log(Object message) {
+        log(message, Level.INFO);
     }
 
     @Override
-    public void log(Object message, Level level, Object... args) {
+    public void log(Object message, Level level) {
+        logger.log(level, message != null ? message.toString() : "null");
+    }
+
+    @Override
+    public void logF(Object message, Object... args) {
+        logF(message, Level.INFO, args);
+    }
+
+    @Override
+    public void logF(Object message, Level level, Object... args) {
         String msg = "null";
         if(message != null)
             msg = args.length == 0 ? message.toString() : String.format(message.toString(), args);
