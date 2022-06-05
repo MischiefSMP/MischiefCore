@@ -1,5 +1,6 @@
-package com.mischiefsmp.core.utils;
+package com.mischiefsmp.core;
 
+import com.mischiefsmp.core.utils.UsernameInfo;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -13,11 +14,11 @@ import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class MCUtils {
+public class MCUtils implements IMCUtils {
     private static final String UUID_API = "https://api.mojang.com/users/profiles/minecraft/%s";
     private static final String USERNAME_API = "https://api.mojang.com/user/profiles/%s/names";
 
-    public static UUID UUIDFromString(String uuid) {
+    public UUID UUIDFromString(String uuid) {
         if(uuid == null)
             return null;
 
@@ -27,7 +28,7 @@ public class MCUtils {
                 new BigInteger(uuid.substring(16), 16).longValue());
     }
 
-    public static ArrayList<UsernameInfo> getUsernameInfo(UUID uuid) {
+    public ArrayList<UsernameInfo> getUsernameInfo(UUID uuid) {
         try {
             URI url = new URI(String.format(USERNAME_API, uuid));
             HttpRequest request = HttpRequest.newBuilder(url).header("accept", "application/json").build();
@@ -53,7 +54,7 @@ public class MCUtils {
         return null;
     }
 
-    public static UUID getUserUUID(String username) {
+    public UUID getUserUUID(String username) {
         try {
             URI url = new URI(String.format(UUID_API, username));
             HttpRequest request = HttpRequest.newBuilder(url).header("accept", "application/json").build();

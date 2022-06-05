@@ -12,7 +12,6 @@ class LogManager implements ILogManager {
         logger = plugin.getLogger();
     }
 
-
     @Override
     public void log(Object message) {
         log(message, Level.INFO);
