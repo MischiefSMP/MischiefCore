@@ -1,18 +1,17 @@
 package com.mischiefsmp.core.config;
 
 import com.mischiefsmp.core.MischiefCore;
-import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
 
 public class ConfigAnnotationHandler {
-    public void load(ConfigurationSection config, Object classToLoad, int... indexes) throws IllegalAccessException {
+
+
+    public void load(FileConfiguration config, Object classToLoad, int... indexes) throws IllegalAccessException {
         try {
-
-            Class<?> clazz = classToLoad.getClass();
-
-            Field[] fields = clazz.getDeclaredFields();
+            Field[] fields = classToLoad.getClass().getDeclaredFields();
             for (int i = 0; i < fields.length; i++) {
                 Field field = fields[i];
                 field.setAccessible(true);
