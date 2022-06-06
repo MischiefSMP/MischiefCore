@@ -10,4 +10,8 @@ public class TimeUtils {
     public static long minutesToUnix(int minutes) {
         return 60L * minutes;
     }
+
+    public static long hoursToUnix(int hours) {
+        return minutesToUnix(60 *  hours);
+    }
 }
