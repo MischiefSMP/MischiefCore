@@ -20,6 +20,7 @@ public class ConfigAnnotationHandler {
             config.save(file);
         } catch(Exception exception) {
             MischiefCore.getLogManager().logF("Error trying to save %s from class %s for indexes", config, classToSave);
+            exception.printStackTrace();
         }
     }
 
@@ -50,6 +51,7 @@ public class ConfigAnnotationHandler {
             }
         } catch(Exception exception) {
             MischiefCore.getLogManager().logF("Error trying to load %s from class %s for indexes %s", config, classToLoad, Arrays.toString(indexes));
+            exception.printStackTrace();
         }
     }
 }

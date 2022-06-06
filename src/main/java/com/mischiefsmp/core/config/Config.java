@@ -11,7 +11,7 @@ public class Config {
     private final FileConfiguration config;
     private final ConfigAnnotationHandler annotationHandler;
 
-    public Config(Plugin plugin, String file) throws IllegalAccessException {
+    public Config(Plugin plugin, String file) {
         configFile = new File(plugin.getDataFolder(), file);
         config = FileUtils.loadConfig(plugin, file);
         annotationHandler = new ConfigAnnotationHandler();
