@@ -3,13 +3,27 @@ package com.mischiefsmp.core.config;
 import com.mischiefsmp.core.MischiefCore;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 
 public class ConfigAnnotationHandler {
 
+    public void save(FileConfiguration config, Object classToSave, File file) {
+        try {
+            for(Field field : classToSave.getClass().getDeclaredFields()) {
+                field.setAccessible(true);
+                ConfigValue annotation = field.getAnnotation(ConfigValue.class);
+                if(annotation != null)
+                    config.set(annotation.path(), field.get(classToSave));
+            }
+            config.save(file);
+        } catch(Exception exception) {
+            MischiefCore.getLogManager().logF("Error trying to save %s from class %s for indexes", config, classToSave);
+        }
+    }
 
-    public void load(FileConfiguration config, Object classToLoad, int... indexes) throws IllegalAccessException {
+    public void load(FileConfiguration config, Object classToLoad, int... indexes) {
         try {
             Field[] fields = classToLoad.getClass().getDeclaredFields();
             for (int i = 0; i < fields.length; i++) {

@@ -7,9 +7,9 @@ import org.bukkit.plugin.Plugin;
 import java.io.File;
 
 public class Config {
-    private File configFile;
-    private FileConfiguration config;
-    private ConfigAnnotationHandler annotationHandler;
+    private final File configFile;
+    private final FileConfiguration config;
+    private final ConfigAnnotationHandler annotationHandler;
 
     public Config(Plugin plugin, String file) throws IllegalAccessException {
         configFile = new File(plugin.getDataFolder(), file);
@@ -18,12 +18,15 @@ public class Config {
         annotationHandler.load(config, this);
     }
 
-    public void reset(int... indexes) {
-        try {
-            annotationHandler.load(config, this, indexes);
+    public void save() {
+        annotationHandler.save(config, this, configFile);
+    }
 
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
+    public void reset(int... indexes) {
+        annotationHandler.load(config, this, indexes);
+    }
+
+    public void delete() {
+        FileUtils.delete(configFile);
     }
 }
