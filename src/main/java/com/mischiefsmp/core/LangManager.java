@@ -29,7 +29,7 @@ public class LangManager {
     }
 
     public String getString(String language, String key, Object... args) {
-        String msg = langMaps.get(language).getString(String.format("messages.%s", key));
+        String msg = langMaps.get(language).getString(String.format("%s", key));
         if(args.length > 0 && msg != null)
             msg = String.format(msg, args);
         if(msg == null)
