@@ -5,14 +5,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class LangManager {
     private final String defaultLanguage;
     private final HashMap<String, FileConfiguration> langMaps = new HashMap<>();
 
-    public LangManager(Plugin plugin, ArrayList<String> languages, String defaultLanguage) {
+    public LangManager(Plugin plugin, List<String> languages, String defaultLanguage) {
         this.defaultLanguage = defaultLanguage;
         for(String lang : languages) {
             langMaps.put(lang, FileUtils.loadConfig(plugin, String.format("lang/%s.yml", lang)));
