@@ -66,7 +66,9 @@ public class ConfigManager {
                 ConfigValue annotation = field.getAnnotation(ConfigValue.class);
                 if (annotation != null) {
                     if(indexes.length == 0 || Utils.contains(indexes, i)) {
-                        field.set(file, fc.get(annotation.path()));
+                        String path = annotation.path();
+                        if(fc.contains(path))
+                            field.set(file, fc.get(path));
                     }
                 }
             }
