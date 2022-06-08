@@ -1,6 +1,5 @@
 package com.mischiefsmp.core;
 
-import com.mischiefsmp.core.config.Config;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class MischiefCore extends JavaPlugin {
