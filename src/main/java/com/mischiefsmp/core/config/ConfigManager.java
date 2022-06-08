@@ -16,15 +16,15 @@ public class ConfigManager {
         Plugin pl = file.getPlugin();
         String jarPath = file.getJarPath();
         String localPath = file.getLocalPath();
-        if(file.getJarPath() != null && localPath != null) {
+        if(file.getJarPath() != null) {
             //Only copy if file doesn't exist yet
             if(!new File(pl.getDataFolder(), localPath).exists())
                 FileUtils.copyConfig(pl, jarPath, localPath);
-
-            //Load config
-            FileConfiguration fc = FileUtils.loadConfig(pl, localPath);
-            load(file, fc);
         }
+
+        //Load config
+        FileConfiguration fc = FileUtils.loadConfig(pl, localPath);
+        load(file, fc);
     }
 
     //Reset a config by temporarily copying a fresh config and loading values from it
