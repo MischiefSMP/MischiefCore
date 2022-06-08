@@ -15,7 +15,9 @@ public class LangManager {
     public LangManager(Plugin plugin, List<String> languages, String defaultLanguage) {
         this.defaultLanguage = defaultLanguage;
         for(String lang : languages) {
-            langMaps.put(lang, FileUtils.loadConfig(plugin, String.format("lang/%s.yml", lang)));
+            String file = String.format("lang/%s.yml", lang);
+            FileUtils.copyConfig(plugin, file, null);
+            langMaps.put(lang, FileUtils.loadConfig(plugin, file));
         }
     }
 
