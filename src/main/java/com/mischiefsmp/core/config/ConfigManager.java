@@ -4,6 +4,7 @@ import com.mischiefsmp.core.MischiefCore;
 import com.mischiefsmp.core.utils.FileUtils;
 import com.mischiefsmp.core.utils.TimeUtils;
 import com.mischiefsmp.core.utils.Utils;
+import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 
@@ -67,8 +68,14 @@ public class ConfigManager {
                 if (annotation != null) {
                     if(indexes.length == 0 || Utils.contains(indexes, i)) {
                         String path = annotation.path();
-                        if(fc.contains(path))
-                            field.set(file, fc.get(path));
+                        if(fc.contains(path)){
+                            Object obj = fc.get(path);
+                            if(obj instanceof MemorySection ms) {
+                                field.set(file, ms.getValues(true));
+                            } else {
+                                field.set(file, obj);
+                            }
+                        }
                     }
                 }
             }
