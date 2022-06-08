@@ -50,7 +50,17 @@ public class FileUtils {
         }
     }
 
+    public static void mkdir(File... files) {
+        for(File file : files) {
+            if(!file.mkdir())
+                logManager.logF("Could not mkdir folder <%s>!", file.getAbsolutePath());
+        }
+    }
+
     public static void renameTo(File initial, File later) {
+        File parentFile = later.getParentFile();
+        if(!parentFile.exists())
+            mkdir(parentFile);
         if(!initial.renameTo(later))
             logManager.logF("Renaming file <%s> to <%s> failed!", initial.getAbsolutePath(), later.getAbsolutePath());
     }
