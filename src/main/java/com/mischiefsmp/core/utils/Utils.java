@@ -14,4 +14,11 @@ public class Utils {
             txt.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
         return txt;
     }
+
+    public static boolean contains(int[] list, int nr) {
+        for(int i : list)
+            if (i == nr)
+                return true;
+        return false;
+    }
 }
