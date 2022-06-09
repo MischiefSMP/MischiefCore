@@ -3,6 +3,8 @@ package com.mischiefsmp.core.utils;
 import com.mischiefsmp.core.cmdinfo.CMDInfo;
 import com.mischiefsmp.core.cmdinfo.CMDInfoManager;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 import org.json.JSONArray;
@@ -75,5 +77,16 @@ public class MCUtils {
             Permission p = new Permission(cmdInfo.permission(), PermissionDefault.getByName(cmdInfo.permissionDefault()));
             Bukkit.getServer().getPluginManager().addPermission(p);
         }
+    }
+
+    public static boolean isAllowed(CommandSender sender, String permission) {
+        if(sender instanceof ConsoleCommandSender)
+            return true;
+
+        Permission p = Bukkit.getPluginManager().getPermission(permission);
+        if(p != null && p.getDefault().getValue(sender.isOp()))
+            return true;
+
+        return sender.hasPermission(permission);
     }
 }
