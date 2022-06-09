@@ -38,4 +38,8 @@ public class LangManager {
             msg = String.format("No String for key <%s>", key);
         return msg;
     }
+
+    public void sendString(CommandSender sender, String key, Object... args) {
+        sender.sendMessage(getString(sender, key, args));
+    }
 }
