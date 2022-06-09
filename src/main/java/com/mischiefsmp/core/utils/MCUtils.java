@@ -1,5 +1,10 @@
 package com.mischiefsmp.core.utils;
 
+import com.mischiefsmp.core.cmdinfo.CMDInfo;
+import com.mischiefsmp.core.cmdinfo.CMDInfoManager;
+import org.bukkit.Bukkit;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionDefault;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -11,6 +16,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 public class MCUtils {
@@ -60,5 +66,14 @@ public class MCUtils {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static void registerPermissions(CMDInfoManager infoManager) {
+        HashMap<String, CMDInfo> cmdInfos = infoManager.getAllCMDs();
+        for(String cmdKey : cmdInfos.keySet()) {
+            CMDInfo cmdInfo = cmdInfos.get(cmdKey);
+            Permission p = new Permission(cmdInfo.permission(), PermissionDefault.getByName(cmdInfo.permissionDefault()));
+            Bukkit.getServer().getPluginManager().addPermission(p);
+        }
     }
 }
