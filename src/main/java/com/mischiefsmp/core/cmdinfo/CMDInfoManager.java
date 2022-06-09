@@ -29,6 +29,10 @@ public class CMDInfoManager {
         return fc.getString(String.format("commands.%s.permission", cmdKey));
     }
 
+    public String getCMDDefault(String cmdKey) {
+        return fc.getString(String.format("commands.%s.default", cmdKey));
+    }
+
     //This returns the usage if no exec is set
     public String getCMDExec(String cmdKey) {
         String path = String.format("commands.%s.exec", cmdKey);
@@ -57,9 +61,10 @@ public class CMDInfoManager {
                     String path = String.format("%s.%s", mainKey, idKey);
                     String usage = getCMDUsage(path);
                     String permission = getCMDPerm(path);
+                    String permissionDefault = getCMDDefault(path);
                     String exec = getCMDExec(path);
                     String suggestion = getCMDSuggestion(path);
-                    CMDInfo info = new CMDInfo(path, usage, permission, exec, suggestion);
+                    CMDInfo info = new CMDInfo(path, usage, permission, permissionDefault, exec, suggestion);
                     result.put(path, info);
                 }
             }
@@ -80,9 +85,10 @@ public class CMDInfoManager {
             String permission = getCMDPerm(path);
             if(permission != null && sender.hasPermission(permission)) {
                 String usage = getCMDUsage(path);
+                String permissionDefault = getCMDDefault(path);
                 String exec = getCMDExec(path);
                 String suggestion = getCMDSuggestion(path);
-                result.add(new CMDInfo(key, usage, permission, exec, suggestion));
+                result.add(new CMDInfo(key, usage, permission, permissionDefault, exec, suggestion));
             }
         }
 
