@@ -2,24 +2,24 @@
 
 Utility Core of the MischiefSMP plugin suite.
 
-# Components
+## Components
 
-## LogManager
+### LogManager
 Simple Logging Class
 
-## CacheManager
+### CacheManager
 Cache Utility that allows you to save things, optionally with a lifetime
 
-## LangManager
+### LangManager
 Load language files in a simple and fast way
 
-## Easy Config Loading
+### Easy Config Loading
 Load .yml files in a more intuitive way using the classes/annotations of the config package
 
-## CMDInfo
+### CMDInfo
 A easy way of loading info about commands/subcommands
 
-# Other utilities
+### Other utilities
 Other utilities are featured in the "utils" package
 
 License
