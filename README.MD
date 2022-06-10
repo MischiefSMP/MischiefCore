@@ -22,6 +22,30 @@ A easy way of loading info about commands/subcommands
 ### Other utilities
 Other utilities are featured in the "utils" package
 
+## How to use
+If you want your plugin to automatically download MischiefCore add this snippet to your main Plugin class:
+
+```
+public void ensureCore(boolean required) {
+    if(getServer().getPluginManager().getPlugin("MischiefCore") != null) return;
+    getLogger().log(Level.INFO, "Downloading MischiefCore...");
+    File pluginFile = new File(new File("").getAbsolutePath() + File.separator + "plugins" + File.separator + "MischiefCore.jar");
+    try {
+        InputStream in = new URL("https://github.com/MischiefSMP/MischiefCore/releases/latest/download/MischiefCore.jar").openStream();
+        Files.copy(in, pluginFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        getServer().getPluginManager().enablePlugin(getServer().getPluginManager().loadPlugin(pluginFile));
+    } catch (Exception e) {
+        getLogger().log(Level.SEVERE, "Error downloading MischiefCore! Message: " + e.getMessage());
+        if(required) getServer().shutdown();
+    }
+    getLogger().log(Level.INFO, "Done downloading MischiefCore!");
+}
+```
+
+and then add ```ensureCore(true/false);``` to your onEnable function before you use MischiefCore.
+
+If you call ensureCore with "true" the server will stop if the download fails.
+
 License
 ----
 
