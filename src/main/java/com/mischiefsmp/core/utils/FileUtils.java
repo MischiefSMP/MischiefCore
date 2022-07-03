@@ -8,6 +8,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
 import java.io.*;
+import java.util.logging.Level;
 
 public class FileUtils {
     private static final LogManager logManager = MischiefCore.getLogManager();
@@ -42,6 +43,15 @@ public class FileUtils {
         if(input == null) return null;
 
         return YamlConfiguration.loadConfiguration(new InputStreamReader(input));
+    }
+
+    public static void save(FileConfiguration fc, Plugin plugin, String file) {
+        try {
+            fc.save(new File(plugin.getDataFolder(), file));
+        } catch (IOException e) {
+            logManager.logF("Error saving config %s for plugin %s!", Level.SEVERE, file, plugin.getName());
+            e.printStackTrace();
+        }
     }
 
     public static void delete(File... files) {

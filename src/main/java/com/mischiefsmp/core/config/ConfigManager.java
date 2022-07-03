@@ -9,6 +9,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Field;
 
 public class ConfigManager {
@@ -25,6 +26,21 @@ public class ConfigManager {
 
         //Load config
         FileConfiguration fc = FileUtils.loadConfig(pl, localPath);
+
+        FileConfiguration freshCFG = FileUtils.loadConfigFromJar(pl, jarPath);
+        //Load defaults if missing
+        if(freshCFG != null) {
+            boolean modified = false;
+            for(String key : freshCFG.getKeys(true)) {
+                if(!fc.contains(key)) {
+                    fc.set(key, freshCFG.get(key));
+                    modified = true;
+                }
+            }
+            if(modified)
+                FileUtils.save(fc, pl, jarPath);
+        }
+
         load(file, fc);
     }
 
