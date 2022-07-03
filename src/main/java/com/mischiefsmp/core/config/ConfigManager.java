@@ -55,7 +55,7 @@ public class ConfigManager {
                 if(annotation != null)
                     fc.set(annotation.path(), field.get(file));
             }
-            fc.save(new File(file.getPlugin().getDataFolder(), file.getLocalPath()));
+            FileUtils.save(fc, file.getPlugin(), file.getLocalPath());
         } catch(Exception exception) {
             MischiefCore.getLogManager().logF("Error trying to save %s!", file);
             exception.printStackTrace();
