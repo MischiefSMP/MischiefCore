@@ -25,6 +25,14 @@ public class ConfigManager {
 
         //Load config
         FileConfiguration fc = FileUtils.loadConfig(pl, localPath);
+
+        FileConfiguration freshCFG = FileUtils.loadConfigFromJar(pl, jarPath);
+        //Load defaults if missing
+        if(freshCFG != null) {
+            if(FileUtils.loadDefaults(fc, freshCFG))
+                FileUtils.save(fc, pl, jarPath);
+        }
+
         load(file, fc);
     }
 
@@ -47,7 +55,7 @@ public class ConfigManager {
                 if(annotation != null)
                     fc.set(annotation.path(), field.get(file));
             }
-            fc.save(new File(file.getPlugin().getDataFolder(), file.getLocalPath()));
+            FileUtils.save(fc, file.getPlugin(), file.getLocalPath());
         } catch(Exception exception) {
             MischiefCore.getLogManager().logF("Error trying to save %s!", file);
             exception.printStackTrace();

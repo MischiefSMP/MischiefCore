@@ -17,7 +17,13 @@ public class LangManager {
         for(String lang : languages) {
             String file = String.format("lang/%s.yml", lang);
             FileUtils.copyConfig(plugin, file, null);
-            langMaps.put(lang, FileUtils.loadConfig(plugin, file));
+            FileConfiguration fc = FileUtils.loadConfig(plugin, file);
+            FileConfiguration defaults = FileUtils.loadConfigFromJar(plugin, file);
+            if(defaults != null) {
+                if(FileUtils.loadDefaults(fc, defaults))
+                    FileUtils.save(fc, plugin, file);
+            }
+            langMaps.put(lang, fc);
         }
     }
 

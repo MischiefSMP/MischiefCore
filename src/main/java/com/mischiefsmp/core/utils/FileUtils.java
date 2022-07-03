@@ -7,8 +7,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.util.logging.Level;
 
 public class FileUtils {
     private static final LogManager logManager = MischiefCore.getLogManager();
@@ -36,6 +36,33 @@ public class FileUtils {
             //This is okay. If it doesnt exist we create it, it simply wont have values
         }
         return cfg;
+    }
+
+    public static FileConfiguration loadConfigFromJar(Plugin plugin, String jarPath) {
+        InputStream input = plugin.getResource(jarPath);
+        if(input == null) return null;
+
+        return YamlConfiguration.loadConfiguration(new InputStreamReader(input));
+    }
+
+    public static boolean loadDefaults(FileConfiguration fc, FileConfiguration defaults) {
+        boolean modified = false;
+        for(String key : defaults.getKeys(true)) {
+            if(!fc.contains(key)) {
+                fc.set(key, defaults.get(key));
+                modified = true;
+            }
+        }
+        return modified;
+    }
+
+    public static void save(FileConfiguration fc, Plugin plugin, String file) {
+        try {
+            fc.save(new File(plugin.getDataFolder(), file));
+        } catch (IOException e) {
+            logManager.logF("Error saving config %s for plugin %s!", Level.SEVERE, file, plugin.getName());
+            e.printStackTrace();
+        }
     }
 
     public static void delete(File... files) {
