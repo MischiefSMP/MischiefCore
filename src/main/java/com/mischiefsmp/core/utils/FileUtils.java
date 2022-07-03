@@ -45,6 +45,17 @@ public class FileUtils {
         return YamlConfiguration.loadConfiguration(new InputStreamReader(input));
     }
 
+    public static boolean loadDefaults(FileConfiguration fc, FileConfiguration defaults) {
+        boolean modified = false;
+        for(String key : defaults.getKeys(true)) {
+            if(!fc.contains(key)) {
+                fc.set(key, defaults.get(key));
+                modified = true;
+            }
+        }
+        return modified;
+    }
+
     public static void save(FileConfiguration fc, Plugin plugin, String file) {
         try {
             fc.save(new File(plugin.getDataFolder(), file));
