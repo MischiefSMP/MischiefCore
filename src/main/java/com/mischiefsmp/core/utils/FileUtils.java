@@ -7,8 +7,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 public class FileUtils {
     private static final LogManager logManager = MischiefCore.getLogManager();
@@ -39,11 +38,10 @@ public class FileUtils {
     }
 
     public static FileConfiguration loadConfigFromJar(Plugin plugin, String jarPath) {
-        String tempName = String.format("TEMP_CFG_%d.yml", TimeUtils.getUnixTime());
-        FileUtils.copyConfig(plugin, jarPath, tempName);
-        FileConfiguration cfg = FileUtils.loadConfig(plugin, tempName);
-        FileUtils.delete(new File(plugin.getDataFolder(), tempName));
-        return cfg;
+        InputStream input = plugin.getResource(jarPath);
+        if(input == null) return null;
+
+        return YamlConfiguration.loadConfiguration(new InputStreamReader(input));
     }
 
     public static void delete(File... files) {
