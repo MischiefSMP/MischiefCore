@@ -38,6 +38,14 @@ public class FileUtils {
         return cfg;
     }
 
+    public static FileConfiguration loadConfigFromJar(Plugin plugin, String jarPath) {
+        String tempName = String.format("TEMP_CFG_%d.yml", TimeUtils.getUnixTime());
+        FileUtils.copyConfig(plugin, jarPath, tempName);
+        FileConfiguration cfg = FileUtils.loadConfig(plugin, tempName);
+        FileUtils.delete(new File(plugin.getDataFolder(), tempName));
+        return cfg;
+    }
+
     public static void delete(File... files) {
         if(files.length == 0) {
             logManager.log("FileUtils.delete() -> Successfully deleted ... uuuh.. nothing?");
