@@ -1,5 +1,6 @@
 package com.mischiefsmp.core.cmdinfo;
 
+import com.mischiefsmp.core.MischiefPlugin;
 import com.mischiefsmp.core.utils.FileUtils;
 import com.mischiefsmp.core.utils.TimeUtils;
 import org.bukkit.command.CommandSender;
@@ -14,7 +15,7 @@ import java.util.HashMap;
 public class CMDInfoManager {
     private final FileConfiguration fc;
 
-    public CMDInfoManager(Plugin plugin) {
+    public CMDInfoManager(MischiefPlugin plugin) {
         String fn = String.format("cmdinfo_%d.yml", TimeUtils.getUnixTime());
         FileUtils.copyConfig(plugin, "cmdinfo.yml", fn);
         fc = FileUtils.loadConfig(plugin, fn);

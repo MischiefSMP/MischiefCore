@@ -1,6 +1,7 @@
 package com.mischiefsmp.core.config;
 
 import com.mischiefsmp.core.MischiefCore;
+import com.mischiefsmp.core.MischiefPlugin;
 import com.mischiefsmp.core.utils.FileUtils;
 import com.mischiefsmp.core.utils.TimeUtils;
 import com.mischiefsmp.core.utils.Utils;
@@ -14,7 +15,7 @@ import java.lang.reflect.Field;
 public class ConfigManager {
 
     public static void init(ConfigFile file) {
-        Plugin pl = file.getPlugin();
+        MischiefPlugin pl = file.getPlugin();
         String jarPath = file.getJarPath();
         String localPath = file.getLocalPath();
         if(file.getJarPath() != null) {
@@ -38,7 +39,7 @@ public class ConfigManager {
 
     //Reset a config by temporarily copying a fresh config and loading values from it
     public static void reset(ConfigFile file, int... indexes) {
-        Plugin pl = file.getPlugin();
+        MischiefPlugin pl = file.getPlugin();
         String fn = String.format("TEMP_CFG_%d.yml", TimeUtils.getUnixTime());
         FileUtils.copyConfig(pl, file.getJarPath(), fn);
         FileConfiguration fc = FileUtils.loadConfig(pl, fn);
@@ -57,7 +58,7 @@ public class ConfigManager {
             }
             FileUtils.save(fc, file.getPlugin(), file.getLocalPath());
         } catch(Exception exception) {
-            MischiefCore.getLogManager().logF("Error trying to save %s!", file);
+            file.getPlugin().getLogManager().logF("Error trying to save %s!", file);
             exception.printStackTrace();
         }
     }

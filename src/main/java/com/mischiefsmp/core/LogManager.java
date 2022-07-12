@@ -1,15 +1,21 @@
 package com.mischiefsmp.core;
 
-import org.bukkit.plugin.Plugin;
-
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class LogManager {
-    private final Logger logger;
+    private static HashMap<MischiefPlugin, LogManager> loggers = new HashMap<>();
+    private Logger logger;
 
-    public LogManager(Plugin plugin) {
-        logger = plugin.getLogger();
+    public static LogManager getLogManager(MischiefPlugin plugin) {
+        if(loggers.containsKey(plugin))
+            return loggers.get(plugin);
+
+        LogManager lm = new LogManager();
+        lm.logger = plugin.getLogger();
+        loggers.put(plugin, lm);
+        return lm;
     }
 
     public void log(Object message) {

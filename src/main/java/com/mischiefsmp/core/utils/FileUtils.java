@@ -2,6 +2,7 @@ package com.mischiefsmp.core.utils;
 
 import com.mischiefsmp.core.LogManager;
 import com.mischiefsmp.core.MischiefCore;
+import com.mischiefsmp.core.MischiefPlugin;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -11,9 +12,13 @@ import java.io.*;
 import java.util.logging.Level;
 
 public class FileUtils {
-    private static final LogManager logManager = MischiefCore.getLogManager();
+    private static LogManager coreLogger;
 
-    public static void copyConfig(Plugin plugin, String file, String finalLocation) {
+    public static void init(MischiefCore core) {
+        coreLogger = core.getLogManager();
+    }
+
+    public static void copyConfig(MischiefPlugin plugin, String file, String finalLocation) {
         File df = plugin.getDataFolder();
         try {
             File cfgFinalFile = new File(df, file);
@@ -24,7 +29,7 @@ public class FileUtils {
                 FileUtils.renameTo(cfgFinalFile, new File(df, finalLocation));
         } catch(Exception exception) {
             exception.printStackTrace();
-            MischiefCore.getLogManager().logF("Error loading file: %s for plugin %s", file, plugin);
+            coreLogger.logF("Error loading file: %s for plugin %s", file, plugin);
         }
     }
 
@@ -48,7 +53,7 @@ public class FileUtils {
         try {
             cfg.load(new File(plugin.getDataFolder(), file));
         } catch (IOException | InvalidConfigurationException e) {
-            //This is okay. If it doesnt exist we create it, it simply wont have values
+            //This is okay. If it doesn't exist we create it, it simply won't have values
         }
         return cfg;
     }
@@ -71,31 +76,31 @@ public class FileUtils {
         return modified;
     }
 
-    public static void save(FileConfiguration fc, Plugin plugin, String file) {
+    public static void save(FileConfiguration fc, MischiefPlugin plugin, String file) {
         try {
             fc.save(new File(plugin.getDataFolder(), file));
         } catch (IOException e) {
-            logManager.logF("Error saving config %s for plugin %s!", Level.SEVERE, file, plugin.getName());
+            coreLogger.logF("Error saving config %s for plugin %s!", Level.SEVERE, file, plugin.getName());
             e.printStackTrace();
         }
     }
 
     public static void delete(File... files) {
         if(files.length == 0) {
-            logManager.log("FileUtils.delete() -> Successfully deleted ... uuuh.. nothing?");
+            coreLogger.log("FileUtils.delete() -> Successfully deleted ... uuuh.. nothing?");
             return;
         }
 
         for(File file : files) {
             if(!file.delete())
-                logManager.logF("Deleting file <%s> failed!", file.getAbsolutePath());
+                coreLogger.logF("Deleting file <%s> failed!", file.getAbsolutePath());
         }
     }
 
     public static void mkdir(File... files) {
         for(File file : files) {
             if(!file.mkdir())
-                logManager.logF("Could not mkdir folder <%s>!", file.getAbsolutePath());
+                coreLogger.logF("Could not mkdir folder <%s>!", file.getAbsolutePath());
         }
     }
 
@@ -104,6 +109,6 @@ public class FileUtils {
         if(!parentFile.exists())
             mkdir(parentFile);
         if(!initial.renameTo(later))
-            logManager.logF("Renaming file <%s> to <%s> failed!", initial.getAbsolutePath(), later.getAbsolutePath());
+            coreLogger.logF("Renaming file <%s> to <%s> failed!", initial.getAbsolutePath(), later.getAbsolutePath());
     }
 }

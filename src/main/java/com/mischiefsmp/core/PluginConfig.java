@@ -18,7 +18,7 @@ class PluginConfig extends ConfigFile {
     @ConfigValue(path = "languages")
     private ArrayList<String> languages;
 
-    public PluginConfig(Plugin plugin) {
+    public PluginConfig(MischiefPlugin plugin) {
         super(plugin, "config.yml", "config.yml");
         ConfigManager.init(this);
     }

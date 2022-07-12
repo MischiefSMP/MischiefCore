@@ -12,7 +12,7 @@ public class LangManager {
     private final String defaultLanguage;
     private final HashMap<String, FileConfiguration> langMaps = new HashMap<>();
 
-    public LangManager(Plugin plugin, List<String> languages, String defaultLanguage) {
+    public LangManager(MischiefPlugin plugin, List<String> languages, String defaultLanguage) {
         this.defaultLanguage = defaultLanguage;
         for(String lang : languages) {
             String file = String.format("lang/%s.yml", lang);
