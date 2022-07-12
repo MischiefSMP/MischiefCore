@@ -28,6 +28,21 @@ public class FileUtils {
         }
     }
 
+    public static boolean fileExists(Plugin plugin, String file, boolean inJar) {
+        if(!inJar)
+            return new File(file).exists();
+
+        try {
+            InputStream stream = plugin.getResource(file);
+            boolean exists = stream != null;
+            if(exists)
+                stream.close();
+            return exists;
+        } catch(IOException ex) {
+            return false;
+        }
+    }
+
     public static FileConfiguration loadConfig(Plugin plugin, String file) {
         YamlConfiguration cfg = new YamlConfiguration();
         try {
