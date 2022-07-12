@@ -1,6 +1,6 @@
-package com.mischiefsmp.core.base;
+package com.mischiefsmp.core;
 
-import com.mischiefsmp.core.LogManager;
+import com.mischiefsmp.core.commands.MischiefCommand;
 import lombok.Getter;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.event.Listener;

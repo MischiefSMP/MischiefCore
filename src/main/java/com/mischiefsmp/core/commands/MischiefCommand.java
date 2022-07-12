@@ -1,6 +1,7 @@
-package com.mischiefsmp.core.base;
+package com.mischiefsmp.core.commands;
 
 import com.mischiefsmp.core.MischiefCore;
+import com.mischiefsmp.core.MischiefPlugin;
 import lombok.Getter;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

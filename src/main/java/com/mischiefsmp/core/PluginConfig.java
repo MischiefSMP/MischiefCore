@@ -1,11 +1,15 @@
-package com.mischiefsmp.core.config;
+package com.mischiefsmp.core;
 
+import com.mischiefsmp.core.config.ConfigFile;
+import com.mischiefsmp.core.config.ConfigManager;
+import com.mischiefsmp.core.config.ConfigValue;
 import lombok.Getter;
 import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 
-public class PluginConfig extends ConfigFile {
+//This isn't public, we don't want other Plugins accessing it
+class PluginConfig extends ConfigFile {
     @Getter
     @ConfigValue(path = "language")
     private String defaultLanguage;

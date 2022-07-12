@@ -1,7 +1,5 @@
 package com.mischiefsmp.core;
 
-import com.mischiefsmp.core.base.MischiefPlugin;
-import com.mischiefsmp.core.config.PluginConfig;
 import lombok.Getter;
 
 public class MischiefCore extends MischiefPlugin {
