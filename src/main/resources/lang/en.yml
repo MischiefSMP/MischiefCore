@@ -1,0 +1,4 @@
+cmd-no-perm: "You do not have permission to run this command"
+cmd-missing-arg: "Missing arguments"
+cmd-bad-arg: "Bad arguments"
+cmd-server-error: "Error executing command"

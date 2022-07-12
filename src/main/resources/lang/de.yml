@@ -1,0 +1,4 @@
+cmd-no-perm: "Du hast keine Berechtigung um diesen Befehl auszuführen"
+cmd-missing-arg: "Fehlende Argumente"
+cmd-bad-arg: "Falsche Argumente"
+cmd-server-error: "Fehler beim ausführen des Befehls"
