@@ -23,7 +23,7 @@ public abstract class MischiefCommand {
                 case BAD_ARGUMENTS -> message = "cmd-bad-arg";
                 case SERVER_ERROR -> message = "cmd-server-error";
             }
-            
+
             if(message != null)
                 MischiefCore.getLangManager().sendString(sender, message);
 

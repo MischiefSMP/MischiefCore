@@ -1,17 +1,22 @@
 package com.mischiefsmp.core;
 
+import com.mischiefsmp.core.base.MischiefPlugin;
+import com.mischiefsmp.core.config.PluginConfig;
 import lombok.Getter;
-import org.bukkit.plugin.java.JavaPlugin;
 
-public class MischiefCore extends JavaPlugin {
+public class MischiefCore extends MischiefPlugin {
     @Getter
-    private static MischiefCore pluginInstance;
+    private static LangManager langManager;
     @Getter
-    private static LogManager logManager;
+    private static PluginConfig pluginConfig;
 
     @Override
     public void onEnable() {
-        pluginInstance = this;
-        logManager = new LogManager(pluginInstance);
+        pluginConfig = new PluginConfig(this);
+        langManager = new LangManager(this, pluginConfig.getLanguages(), pluginConfig.getDefaultLanguage());
+    }
+
+    @Override
+    public void onDisable() {
     }
 }
