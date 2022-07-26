@@ -1,11 +1,13 @@
-package com.mischiefsmp.core;
+package com.mischiefsmp.core.utils;
+
+import com.mischiefsmp.core.MischiefPlugin;
 
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class LogManager {
-    private static HashMap<MischiefPlugin, LogManager> loggers = new HashMap<>();
+    private static final HashMap<MischiefPlugin, LogManager> loggers = new HashMap<>();
     private Logger logger;
 
     public static LogManager getLogManager(MischiefPlugin plugin) {

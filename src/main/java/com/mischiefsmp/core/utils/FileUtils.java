@@ -1,6 +1,5 @@
 package com.mischiefsmp.core.utils;
 
-import com.mischiefsmp.core.LogManager;
 import com.mischiefsmp.core.MischiefCore;
 import com.mischiefsmp.core.MischiefPlugin;
 import org.bukkit.configuration.InvalidConfigurationException;

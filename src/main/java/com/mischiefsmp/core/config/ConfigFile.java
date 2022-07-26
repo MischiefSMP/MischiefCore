@@ -17,4 +17,8 @@ public class ConfigFile {
         this.localPath = localPath;
         this.jarPath = jarPath;
     }
+
+    public void reload() {
+        ConfigManager.init(this);
+    }
 }

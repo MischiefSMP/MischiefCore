@@ -1,20 +1,31 @@
-package com.mischiefsmp.core;
+package com.mischiefsmp.core.lang;
 
+import com.mischiefsmp.core.MischiefPlugin;
 import com.mischiefsmp.core.utils.FileUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.plugin.Plugin;
 
 import java.util.HashMap;
-import java.util.List;
 
 public class LangManager {
-    private final String defaultLanguage;
+    private final MischiefPlugin plugin;
+    private final LangConfig config;
     private final HashMap<String, FileConfiguration> langMaps = new HashMap<>();
 
-    public LangManager(MischiefPlugin plugin, List<String> languages, String defaultLanguage) {
-        this.defaultLanguage = defaultLanguage;
-        for(String lang : languages) {
+    public LangManager(MischiefPlugin plugin) {
+        this.plugin = plugin;
+        config = new LangConfig(plugin);
+        load();
+    }
+
+    public void reload() {
+        config.reload();
+        langMaps.clear();
+        load();
+    }
+
+    private void load() {
+        for(String lang : config.getLanguages()) {
             String file = String.format("lang/%s.yml", lang);
             FileUtils.copyConfig(plugin, file, null);
             FileConfiguration fc = FileUtils.loadConfig(plugin, file);
@@ -29,11 +40,11 @@ public class LangManager {
 
     public String getString(CommandSender sender, String key, Object... args) {
         //TODO: Add future support for MischiefLanguage (per user language)
-        return getString(defaultLanguage, key, args);
+        return getString(config.getDefaultLanguage(), key, args);
     }
 
     public String getString(String key, Object... args) {
-        return getString(defaultLanguage, key, args);
+        return getString(config.getDefaultLanguage(), key, args);
     }
 
     public String getString(String language, String key, Object... args) {
