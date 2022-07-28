@@ -7,3 +7,4 @@ General features:
 - Get things like other plugins from MischiefCore, possibly also things that hold values like CacheManager?
 - Every MischiefPlugin has a LogManager, LangManager (if available) publicly available on reference
 - Every MischiefPlugin registers itself in a common Database, so that other MischiefPlugins can access eachother easily
+- Make sure FileUtils throws more exceptions, we shouldnt expect everything to go smoothly

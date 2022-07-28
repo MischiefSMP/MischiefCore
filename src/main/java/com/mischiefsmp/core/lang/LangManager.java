@@ -2,32 +2,44 @@ package com.mischiefsmp.core.lang;
 
 import com.mischiefsmp.core.MischiefPlugin;
 import com.mischiefsmp.core.utils.FileUtils;
+import lombok.Getter;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 
 public class LangManager {
     private final MischiefPlugin plugin;
-    private final LangConfig config;
+    private LangConfig config;
     private final HashMap<String, FileConfiguration> langMaps = new HashMap<>();
+    @Getter
+    private boolean enabled;
 
     public LangManager(MischiefPlugin plugin) {
         this.plugin = plugin;
-        config = new LangConfig(plugin);
-        load();
+        reload();
     }
 
     public void reload() {
-        config.reload();
-        langMaps.clear();
-        load();
+        //Normally we would run .reload here, but since that can fail and it does not update our
+        //"exists" variable we do this instead.
+        config = new LangConfig(plugin);
+        enabled = config.isExists();
+        if(enabled) {
+            langMaps.clear();
+            load();
+        }
     }
 
     private void load() {
         for(String lang : config.getLanguages()) {
             String file = String.format("lang/%s.yml", lang);
-            FileUtils.copyConfig(plugin, file, null);
+            try {
+                FileUtils.copyConfig(plugin, file, null);
+            } catch (FileNotFoundException ignored) {
+                plugin.getLogManager().logF("Language file %s requested but not found", file);
+            }
             FileConfiguration fc = FileUtils.loadConfig(plugin, file);
             FileConfiguration defaults = FileUtils.loadConfigFromJar(plugin, file);
             if(defaults != null) {

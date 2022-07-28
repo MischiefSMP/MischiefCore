@@ -4,6 +4,8 @@ import com.mischiefsmp.core.MischiefPlugin;
 import lombok.Getter;
 import org.bukkit.plugin.Plugin;
 
+import java.io.FileNotFoundException;
+
 public class ConfigFile {
     @Getter
     private final MischiefPlugin plugin;
@@ -19,6 +21,10 @@ public class ConfigFile {
     }
 
     public void reload() {
-        ConfigManager.init(this);
+        try {
+            ConfigManager.init(this);
+        } catch (FileNotFoundException exception) {
+            plugin.getLogManager().logF("Could not reload config %s for plugin %s", localPath, plugin.getName());
+        }
     }
 }

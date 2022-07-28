@@ -17,7 +17,7 @@ public class FileUtils {
         coreLogger = core.getLogManager();
     }
 
-    public static void copyConfig(MischiefPlugin plugin, String file, String finalLocation) {
+    public static void copyConfig(MischiefPlugin plugin, String file, String finalLocation) throws FileNotFoundException{
         File df = plugin.getDataFolder();
         try {
             File cfgFinalFile = new File(df, file);
@@ -27,8 +27,7 @@ public class FileUtils {
             if(finalLocation != null)
                 FileUtils.renameTo(cfgFinalFile, new File(df, finalLocation));
         } catch(Exception exception) {
-            exception.printStackTrace();
-            coreLogger.logF("Error loading file: %s for plugin %s", file, plugin);
+            throw new FileNotFoundException(String.format("Could not load file %s for plugin %s", file, plugin));
         }
     }
 
@@ -103,11 +102,14 @@ public class FileUtils {
         }
     }
 
-    public static void renameTo(File initial, File later) {
+    public static boolean renameTo(File initial, File later) {
         File parentFile = later.getParentFile();
         if(!parentFile.exists())
             mkdir(parentFile);
-        if(!initial.renameTo(later))
+        if(!initial.renameTo(later)) {
             coreLogger.logF("Renaming file <%s> to <%s> failed!", initial.getAbsolutePath(), later.getAbsolutePath());
+            return false;
+        }
+        return true;
     }
 }

@@ -9,6 +9,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -17,7 +18,11 @@ public class CMDInfoManager {
 
     public CMDInfoManager(MischiefPlugin plugin) {
         String fn = String.format("cmdinfo_%d.yml", TimeUtils.getUnixTime());
-        FileUtils.copyConfig(plugin, "cmdinfo.yml", fn);
+        try {
+            FileUtils.copyConfig(plugin, "cmdinfo.yml", fn);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         fc = FileUtils.loadConfig(plugin, fn);
         FileUtils.delete(new File(plugin.getDataFolder(), fn));
     }

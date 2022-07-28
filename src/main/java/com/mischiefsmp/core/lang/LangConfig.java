@@ -6,6 +6,7 @@ import com.mischiefsmp.core.config.ConfigManager;
 import com.mischiefsmp.core.config.ConfigValue;
 import lombok.Getter;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class LangConfig extends ConfigFile {
@@ -18,8 +19,16 @@ public class LangConfig extends ConfigFile {
     @ConfigValue(path = "languages")
     private ArrayList<String> languages;
 
+    @Getter
+    private boolean exists;
+
     public LangConfig(MischiefPlugin plugin) {
         super(plugin, "lang.yml", "lang.yml");
-        ConfigManager.init(this);
+        try {
+            ConfigManager.init(this);
+            exists = true;
+        } catch(FileNotFoundException exception) {
+            exists = false;
+        }
     }
 }

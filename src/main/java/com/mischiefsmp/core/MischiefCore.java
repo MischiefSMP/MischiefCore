@@ -16,7 +16,7 @@ public class MischiefCore extends MischiefPlugin {
     @Override
     public void onLoad() {
         coreInstance = this;
-        FileUtils.init(this);
+        FileUtils.init(coreInstance);
     }
 
     @Override

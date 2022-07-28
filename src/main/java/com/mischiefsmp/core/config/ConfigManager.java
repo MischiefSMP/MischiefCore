@@ -1,27 +1,27 @@
 package com.mischiefsmp.core.config;
 
-import com.mischiefsmp.core.MischiefCore;
 import com.mischiefsmp.core.MischiefPlugin;
 import com.mischiefsmp.core.utils.FileUtils;
 import com.mischiefsmp.core.utils.TimeUtils;
 import com.mischiefsmp.core.utils.Utils;
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.plugin.Plugin;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.lang.reflect.Field;
 
 public class ConfigManager {
 
-    public static void init(ConfigFile file) {
+    public static void init(ConfigFile file) throws FileNotFoundException {
         MischiefPlugin pl = file.getPlugin();
         String jarPath = file.getJarPath();
         String localPath = file.getLocalPath();
         if(file.getJarPath() != null) {
             //Only copy if file doesn't exist yet
-            if(!new File(pl.getDataFolder(), localPath).exists())
+            if(!new File(pl.getDataFolder(), localPath).exists()) {
                 FileUtils.copyConfig(pl, jarPath, localPath);
+            }
         }
 
         //Load config
@@ -41,7 +41,11 @@ public class ConfigManager {
     public static void reset(ConfigFile file, int... indexes) {
         MischiefPlugin pl = file.getPlugin();
         String fn = String.format("TEMP_CFG_%d.yml", TimeUtils.getUnixTime());
-        FileUtils.copyConfig(pl, file.getJarPath(), fn);
+        try {
+            FileUtils.copyConfig(pl, file.getJarPath(), fn);
+        } catch (FileNotFoundException e) {
+            file.getPlugin().getLogManager().logF("Error resetting config %s for plugin %s", file.getLocalPath(), file.getPlugin().getName());
+        }
         FileConfiguration fc = FileUtils.loadConfig(pl, fn);
         load(file, fc, indexes);
         FileUtils.delete(new File(pl.getDataFolder(), fn));
