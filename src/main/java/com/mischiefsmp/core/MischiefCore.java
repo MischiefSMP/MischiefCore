@@ -42,6 +42,10 @@ public class MischiefCore extends MischiefPlugin {
         return coreInstance;
     }
 
+    public static boolean hasPlugin(Class<?> pluginClass) {
+        return getMischiefPlugin(pluginClass) != null;
+    }
+
     public static LogManager getLogManager(Class<?> pluginClass) {
         MischiefPlugin plugin = getMischiefPlugin(pluginClass);
         if(plugin != null)
