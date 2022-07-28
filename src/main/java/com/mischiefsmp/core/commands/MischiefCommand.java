@@ -25,8 +25,10 @@ public abstract class MischiefCommand {
                 case SERVER_ERROR -> message = "cmd-server-error";
             }
 
+            MischiefCore.getMischiefPlugin(MischiefCore.class);
+
             if(message != null)
-                MischiefCore.getLangManager().sendString(sender, message);
+                MischiefCore.getCore().getLangManager().sendString(sender, message);
 
             return true;
         };
