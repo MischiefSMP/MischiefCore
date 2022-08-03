@@ -1,6 +1,5 @@
 package com.mischiefsmp.core.api.utils;
 
-import com.mischiefsmp.core.MischiefCore;
 import com.mischiefsmp.core.api.MischiefPlugin;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -8,15 +7,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
 import java.io.*;
-import java.util.logging.Level;
 
 public class FileUtils {
-    private static LogManager coreLogger;
-
-    public static void init(MischiefCore core) {
-        coreLogger = core.getLogManager();
-    }
-
     public static void copyConfig(MischiefPlugin plugin, String file, String finalLocation) throws FileNotFoundException{
         File df = plugin.getDataFolder();
         try {
@@ -74,42 +66,30 @@ public class FileUtils {
         return modified;
     }
 
-    public static void save(FileConfiguration fc, MischiefPlugin plugin, String file) {
-        try {
-            fc.save(new File(plugin.getDataFolder(), file));
-        } catch (IOException e) {
-            coreLogger.logF("Error saving config %s for plugin %s!", Level.SEVERE, file, plugin.getName());
-            e.printStackTrace();
-        }
+    public static void save(FileConfiguration fc, MischiefPlugin plugin, String file) throws IOException {
+        fc.save(new File(plugin.getDataFolder(), file));
     }
 
-    public static void delete(File... files) {
-        if(files.length == 0) {
-            coreLogger.log("FileUtils.delete() -> Successfully deleted ... uuuh.. nothing?");
-            return;
-        }
-
+    public static void delete(File... files) throws IOException {
         for(File file : files) {
             if(!file.delete())
-                coreLogger.logF("Deleting file <%s> failed!", file.getAbsolutePath());
+                throw new IOException(String.format("Deleting file <%s> failed!", file.getAbsolutePath()));
         }
     }
 
-    public static void mkdir(File... files) {
+    public static void mkdir(File... files) throws IOException {
         for(File file : files) {
             if(!file.mkdir())
-                coreLogger.logF("Could not mkdir folder <%s>!", file.getAbsolutePath());
+                throw new IOException(String.format("Could not mkdir folder <%s>!", file.getAbsolutePath()));
         }
     }
 
-    public static boolean renameTo(File initial, File later) {
+    public static void renameTo(File initial, File later) throws IOException {
         File parentFile = later.getParentFile();
         if(!parentFile.exists())
             mkdir(parentFile);
         if(!initial.renameTo(later)) {
-            coreLogger.logF("Renaming file <%s> to <%s> failed!", initial.getAbsolutePath(), later.getAbsolutePath());
-            return false;
+            throw new IOException(String.format("Renaming file <%s> to <%s> failed!", initial.getAbsolutePath(), later.getAbsolutePath()));
         }
-        return true;
     }
 }

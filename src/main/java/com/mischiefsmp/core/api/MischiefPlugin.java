@@ -38,10 +38,10 @@ public abstract class MischiefPlugin extends JavaPlugin {
     }
 
     public void reload() {
-        logManager.log("Reloading...");
+        logManager.info("Reloading...");
         langManager.reload();
         reloadFunction.run();
-        logManager.log("Reload done!");
+        logManager.info("Reload done!");
     }
 
     public void registerEvent(Listener listener) {

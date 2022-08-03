@@ -1,29 +1,32 @@
 package com.mischiefsmp.core.api.cmdinfo;
 
+import com.mischiefsmp.core.MischiefCore;
 import com.mischiefsmp.core.api.MischiefPlugin;
 import com.mischiefsmp.core.api.utils.FileUtils;
+import com.mischiefsmp.core.api.utils.PluginManager;
 import com.mischiefsmp.core.api.utils.TimeUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Level;
 
 public class CMDInfoManager {
-    private final FileConfiguration fc;
+    private FileConfiguration fc;
 
     public CMDInfoManager(MischiefPlugin plugin) {
         String fn = String.format("cmdinfo_%d.yml", TimeUtils.getUnixTime());
         try {
             FileUtils.copyConfig(plugin, "cmdinfo.yml", fn);
-        } catch (FileNotFoundException e) {
+            fc = FileUtils.loadConfig(plugin, fn);
+            FileUtils.delete(new File(plugin.getDataFolder(), fn));
+        } catch (Exception e) {
+            PluginManager.getLogManager(MischiefCore.class).error("Could not load cmfinfo for plugin %s!", plugin.getName());
             e.printStackTrace();
         }
-        fc = FileUtils.loadConfig(plugin, fn);
-        FileUtils.delete(new File(plugin.getDataFolder(), fn));
     }
 
     public String getCMDUsage(String cmdKey) {

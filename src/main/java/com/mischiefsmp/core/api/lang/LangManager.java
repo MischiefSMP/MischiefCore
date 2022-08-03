@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 
 public class LangManager {
@@ -38,15 +39,20 @@ public class LangManager {
             try {
                 FileUtils.copyConfig(plugin, file, null);
             } catch (FileNotFoundException ignored) {
-                plugin.getLogManager().logF("Language file %s requested but not found", file);
+                plugin.getLogManager().warn("Language file %s requested but not found", file);
             }
-            FileConfiguration fc = FileUtils.loadConfig(plugin, file);
-            FileConfiguration defaults = FileUtils.loadConfigFromJar(plugin, file);
-            if(defaults != null) {
-                if(FileUtils.loadDefaults(fc, defaults))
-                    FileUtils.save(fc, plugin, file);
+
+            try {
+                FileConfiguration fc = FileUtils.loadConfig(plugin, file);
+                FileConfiguration defaults = FileUtils.loadConfigFromJar(plugin, file);
+                if(defaults != null) {
+                    if(FileUtils.loadDefaults(fc, defaults))
+                        FileUtils.save(fc, plugin, file);
+                }
+                langMaps.put(lang, fc);
+            } catch(IOException ioException) {
+                plugin.getLogManager().error("Error saving config file %s for plugin %s!", file, plugin.getName());
             }
-            langMaps.put(lang, fc);
         }
     }
 

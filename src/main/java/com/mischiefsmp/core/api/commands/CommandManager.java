@@ -10,7 +10,7 @@ public class CommandManager {
     public static void registerCommand(@NotNull MischiefPlugin plugin, @NotNull MischiefCommand command) {
         PluginCommand cmd = plugin.getCommand(command.getAlias());
         if(cmd == null) {
-            plugin.getLogManager().logF("Could not register command %s", Level.SEVERE, command.getAlias());
+            plugin.getLogManager().warn("Could not register command %s", command.getAlias());
             return;
         }
         cmd.setExecutor(command.getExecutor());

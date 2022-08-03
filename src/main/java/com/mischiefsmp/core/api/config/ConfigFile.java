@@ -23,7 +23,7 @@ public class ConfigFile {
         try {
             ConfigManager.init(this);
         } catch (FileNotFoundException exception) {
-            plugin.getLogManager().logF("Could not reload config %s for plugin %s", localPath, plugin.getName());
+            plugin.getLogManager().error("Could not reload config %s for plugin %s", localPath, plugin.getName());
         }
     }
 }

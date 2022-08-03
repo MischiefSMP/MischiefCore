@@ -1,7 +1,6 @@
 package com.mischiefsmp.core.api.utils;
 
 import com.mischiefsmp.core.api.MischiefPlugin;
-import org.bukkit.Bukkit;
 
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -21,22 +20,38 @@ public class LogManager {
         return lm;
     }
 
-    public void log(Object message) {
-        log(message, Level.INFO);
-    }
-
-    public void log(Object message, Level level) {
+    private void log(Object message, Level level) {
         logger.log(level, message != null ? message.toString() : "null");
     }
 
-    public void logF(Object message, Object... args) {
-        logF(message, Level.INFO, args);
-    }
-
-    public void logF(Object message, Level level, Object... args) {
+    private void logF(Object message, Level level, Object... args) {
         String msg = "null";
         if(message != null)
             msg = args.length == 0 ? message.toString() : String.format(message.toString(), args);
         logger.log(level, msg);
+    }
+
+    public void info(Object message) {
+        log(message, Level.INFO);
+    }
+
+    public void info(Object message, Object... args) {
+        logF(message, Level.INFO, args);
+    }
+
+    public void warn(Object message) {
+        log(message, Level.WARNING);
+    }
+
+    public void warn(Object message, Object... args) {
+        logF(message, Level.WARNING, args);
+    }
+
+    public void error(Object message) {
+        log(message, Level.SEVERE);
+    }
+
+    public void error(Object message, Object... args) {
+        logF(message, Level.SEVERE, args);
     }
 }

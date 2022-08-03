@@ -2,6 +2,7 @@ package com.mischiefsmp.core.api.config;
 
 import com.mischiefsmp.core.api.MischiefPlugin;
 import com.mischiefsmp.core.api.utils.FileUtils;
+import com.mischiefsmp.core.api.utils.LogManager;
 import com.mischiefsmp.core.api.utils.TimeUtils;
 import com.mischiefsmp.core.api.utils.Utils;
 import org.bukkit.configuration.MemorySection;
@@ -9,7 +10,9 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.logging.Level;
 
 public class ConfigManager {
 
@@ -29,9 +32,13 @@ public class ConfigManager {
 
         FileConfiguration freshCFG = FileUtils.loadConfigFromJar(pl, jarPath);
         //Load defaults if missing
-        if(freshCFG != null) {
-            if(FileUtils.loadDefaults(fc, freshCFG))
-                FileUtils.save(fc, pl, jarPath);
+        try {
+            if(freshCFG != null) {
+                if(FileUtils.loadDefaults(fc, freshCFG))
+                    FileUtils.save(fc, pl, jarPath);
+            }
+        } catch (IOException ioException) {
+            pl.getLogManager().error("Error saving defaults for %s!", pl);
         }
 
         load(file, fc);
@@ -40,15 +47,20 @@ public class ConfigManager {
     //Reset a config by temporarily copying a fresh config and loading values from it
     public static void reset(ConfigFile file, int... indexes) {
         MischiefPlugin pl = file.getPlugin();
+        LogManager lm = pl.getLogManager();
         String fn = String.format("TEMP_CFG_%d.yml", TimeUtils.getUnixTime());
         try {
             FileUtils.copyConfig(pl, file.getJarPath(), fn);
         } catch (FileNotFoundException e) {
-            file.getPlugin().getLogManager().logF("Error resetting config %s for plugin %s", file.getLocalPath(), file.getPlugin().getName());
+            lm.error("Error resetting config %s for plugin %s: File could not be found!", file.getLocalPath(), file.getPlugin().getName());
         }
         FileConfiguration fc = FileUtils.loadConfig(pl, fn);
         load(file, fc, indexes);
-        FileUtils.delete(new File(pl.getDataFolder(), fn));
+        try {
+            FileUtils.delete(new File(pl.getDataFolder(), fn));
+        } catch(IOException ioException) {
+            lm.error("Error deleting %s for plugin %s!", fn, pl.getName());
+        }
     }
 
     public static void save(ConfigFile file) {
@@ -62,13 +74,17 @@ public class ConfigManager {
             }
             FileUtils.save(fc, file.getPlugin(), file.getLocalPath());
         } catch(Exception exception) {
-            file.getPlugin().getLogManager().logF("Error trying to save %s!", file);
+            file.getPlugin().getLogManager().error("Error trying to save %s!", file);
             exception.printStackTrace();
         }
     }
 
     public static void delete(ConfigFile file) {
-        FileUtils.delete(new File(file.getPlugin().getDataFolder(), file.getLocalPath()));
+        try {
+            FileUtils.delete(new File(file.getPlugin().getDataFolder(), file.getLocalPath()));
+        } catch (IOException ioException) {
+            file.getPlugin().getLogManager().error("Error deleting file %s for plugin %s!", file.getLocalPath(), file.getPlugin().getName());
+        }
     }
 
     private static void load(ConfigFile file, FileConfiguration fc, int... indexes) {
