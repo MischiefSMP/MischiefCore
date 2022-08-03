@@ -1,6 +1,6 @@
-package com.mischiefsmp.core.commands;
+package com.mischiefsmp.core.api.commands;
 
-import com.mischiefsmp.core.MischiefPlugin;
+import com.mischiefsmp.core.api.MischiefPlugin;
 import org.bukkit.command.PluginCommand;
 import org.jetbrains.annotations.NotNull;
 

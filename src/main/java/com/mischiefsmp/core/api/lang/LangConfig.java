@@ -1,9 +1,9 @@
-package com.mischiefsmp.core.lang;
+package com.mischiefsmp.core.api.lang;
 
-import com.mischiefsmp.core.MischiefPlugin;
-import com.mischiefsmp.core.config.ConfigFile;
-import com.mischiefsmp.core.config.ConfigManager;
-import com.mischiefsmp.core.config.ConfigValue;
+import com.mischiefsmp.core.api.MischiefPlugin;
+import com.mischiefsmp.core.api.config.ConfigFile;
+import com.mischiefsmp.core.api.config.ConfigManager;
+import com.mischiefsmp.core.api.config.ConfigValue;
 import lombok.Getter;
 
 import java.io.FileNotFoundException;

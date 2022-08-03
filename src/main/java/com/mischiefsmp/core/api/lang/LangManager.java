@@ -1,7 +1,7 @@
-package com.mischiefsmp.core.lang;
+package com.mischiefsmp.core.api.lang;
 
-import com.mischiefsmp.core.MischiefPlugin;
-import com.mischiefsmp.core.utils.FileUtils;
+import com.mischiefsmp.core.api.MischiefPlugin;
+import com.mischiefsmp.core.api.utils.FileUtils;
 import lombok.Getter;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;

@@ -1,12 +1,11 @@
-package com.mischiefsmp.core.cmdinfo;
+package com.mischiefsmp.core.api.cmdinfo;
 
-import com.mischiefsmp.core.MischiefPlugin;
-import com.mischiefsmp.core.utils.FileUtils;
-import com.mischiefsmp.core.utils.TimeUtils;
+import com.mischiefsmp.core.api.MischiefPlugin;
+import com.mischiefsmp.core.api.utils.FileUtils;
+import com.mischiefsmp.core.api.utils.TimeUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.plugin.Plugin;
 
 import java.io.File;
 import java.io.FileNotFoundException;

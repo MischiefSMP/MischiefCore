@@ -1,4 +1,4 @@
-package com.mischiefsmp.core.config;
+package com.mischiefsmp.core.api.config;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,10 +1,9 @@
-package com.mischiefsmp.core;
+package com.mischiefsmp.core.api;
 
-import com.mischiefsmp.core.lang.LangManager;
-import com.mischiefsmp.core.utils.Function;
-import com.mischiefsmp.core.utils.LogManager;
+import com.mischiefsmp.core.api.lang.LangManager;
+import com.mischiefsmp.core.api.utils.Function;
+import com.mischiefsmp.core.api.utils.LogManager;
 import lombok.Getter;
-import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 

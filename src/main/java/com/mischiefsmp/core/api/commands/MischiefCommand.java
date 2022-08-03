@@ -1,7 +1,7 @@
-package com.mischiefsmp.core.commands;
+package com.mischiefsmp.core.api.commands;
 
 import com.mischiefsmp.core.MischiefCore;
-import com.mischiefsmp.core.MischiefPlugin;
+import com.mischiefsmp.core.api.MischiefPlugin;
 import lombok.Getter;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -24,8 +24,6 @@ public abstract class MischiefCommand {
                 case BAD_ARGUMENTS -> message = "cmd-bad-arg";
                 case SERVER_ERROR -> message = "cmd-server-error";
             }
-
-            MischiefCore.getMischiefPlugin(MischiefCore.class);
 
             if(message != null)
                 MischiefCore.getCore().getLangManager().sendString(sender, message);

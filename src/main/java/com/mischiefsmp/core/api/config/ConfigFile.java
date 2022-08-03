@@ -1,8 +1,7 @@
-package com.mischiefsmp.core.config;
+package com.mischiefsmp.core.api.config;
 
-import com.mischiefsmp.core.MischiefPlugin;
+import com.mischiefsmp.core.api.MischiefPlugin;
 import lombok.Getter;
-import org.bukkit.plugin.Plugin;
 
 import java.io.FileNotFoundException;
 

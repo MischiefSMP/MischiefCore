@@ -1,7 +1,7 @@
-package com.mischiefsmp.core.utils;
+package com.mischiefsmp.core.api.utils;
 
 import com.mischiefsmp.core.MischiefCore;
-import com.mischiefsmp.core.MischiefPlugin;
+import com.mischiefsmp.core.api.MischiefPlugin;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;

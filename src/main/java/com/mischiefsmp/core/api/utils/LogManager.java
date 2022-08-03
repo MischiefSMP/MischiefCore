@@ -1,6 +1,7 @@
-package com.mischiefsmp.core.utils;
+package com.mischiefsmp.core.api.utils;
 
-import com.mischiefsmp.core.MischiefPlugin;
+import com.mischiefsmp.core.api.MischiefPlugin;
+import org.bukkit.Bukkit;
 
 import java.util.HashMap;
 import java.util.logging.Level;

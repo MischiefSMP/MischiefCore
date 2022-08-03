@@ -1,7 +1,7 @@
-package com.mischiefsmp.core.utils;
+package com.mischiefsmp.core.api.utils;
 
-import com.mischiefsmp.core.cmdinfo.CMDInfo;
-import com.mischiefsmp.core.cmdinfo.CMDInfoManager;
+import com.mischiefsmp.core.api.cmdinfo.CMDInfo;
+import com.mischiefsmp.core.api.cmdinfo.CMDInfoManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;

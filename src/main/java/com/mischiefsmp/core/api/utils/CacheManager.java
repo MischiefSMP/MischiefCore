@@ -1,4 +1,4 @@
-package com.mischiefsmp.core.utils;
+package com.mischiefsmp.core.api.utils;
 
 import org.bukkit.plugin.Plugin;
 
