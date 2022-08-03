@@ -3,7 +3,7 @@ package com.mischiefsmp.core.api.cmdinfo;
 import com.mischiefsmp.core.MischiefCore;
 import com.mischiefsmp.core.api.MischiefPlugin;
 import com.mischiefsmp.core.api.utils.FileUtils;
-import com.mischiefsmp.core.api.utils.PluginManager;
+import com.mischiefsmp.core.api.PluginManager;
 import com.mischiefsmp.core.api.utils.TimeUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
@@ -12,7 +12,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.logging.Level;
 
 public class CMDInfoManager {
     private FileConfiguration fc;

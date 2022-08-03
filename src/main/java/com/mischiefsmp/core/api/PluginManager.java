@@ -1,8 +1,8 @@
-package com.mischiefsmp.core.api.utils;
+package com.mischiefsmp.core.api;
 
 import com.mischiefsmp.core.MischiefCore;
-import com.mischiefsmp.core.api.MischiefPlugin;
 import com.mischiefsmp.core.api.lang.LangManager;
+import com.mischiefsmp.core.api.utils.PluginNotFoundException;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 

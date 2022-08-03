@@ -2,7 +2,7 @@ package com.mischiefsmp.core.api.config;
 
 import com.mischiefsmp.core.api.MischiefPlugin;
 import com.mischiefsmp.core.api.utils.FileUtils;
-import com.mischiefsmp.core.api.utils.LogManager;
+import com.mischiefsmp.core.api.LogManager;
 import com.mischiefsmp.core.api.utils.TimeUtils;
 import com.mischiefsmp.core.api.utils.Utils;
 import org.bukkit.configuration.MemorySection;
@@ -12,7 +12,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.logging.Level;
 
 public class ConfigManager {
 

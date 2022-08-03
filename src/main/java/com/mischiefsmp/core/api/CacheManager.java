@@ -1,5 +1,7 @@
-package com.mischiefsmp.core.api.utils;
+package com.mischiefsmp.core.api;
 
+import com.mischiefsmp.core.api.utils.KeyValueStorage;
+import com.mischiefsmp.core.api.utils.TimeUtils;
 import org.bukkit.plugin.Plugin;
 
 import java.util.HashMap;
