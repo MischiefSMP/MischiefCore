@@ -32,7 +32,7 @@ public class Utils {
     }
 
     public static void removeTabArguments(String[] args, ArrayList<String> tabArguments) {
-        if(args == null || args.length == 0)
+        if(args == null || args.length == 0 || tabArguments == null)
             return;
         tabArguments.removeIf(str -> !Utils.startsWithIgnoreCase(str, args[args.length - 1]));
     }

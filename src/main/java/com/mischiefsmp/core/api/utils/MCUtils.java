@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -79,14 +80,20 @@ public class MCUtils {
         }
     }
 
-    public static boolean isAllowed(CommandSender sender, String permission) {
+    public static boolean isAllowed(@NotNull CommandSender sender, @NotNull Permission permission) {
         if(sender instanceof ConsoleCommandSender)
             return true;
 
-        Permission p = Bukkit.getPluginManager().getPermission(permission);
-        if(p != null && p.getDefault().getValue(sender.isOp()))
+        if(permission.getDefault().getValue(sender.isOp()))
             return true;
 
         return sender.hasPermission(permission);
+    }
+
+    public static boolean isAllowed(@NotNull CommandSender sender, @NotNull String permission) {
+        Permission p = Bukkit.getPluginManager().getPermission(permission);
+        if(p == null)
+            return false;
+        return isAllowed(sender, p);
     }
 }
