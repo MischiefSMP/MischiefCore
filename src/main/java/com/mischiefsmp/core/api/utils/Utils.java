@@ -5,6 +5,7 @@ import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Text;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Utils {
@@ -30,7 +31,9 @@ public class Utils {
         return str1.toLowerCase().startsWith(str2.toLowerCase());
     }
 
-    public static void removeTabArguments(String[] args, List<String> tabArguments) {
+    public static void removeTabArguments(String[] args, ArrayList<String> tabArguments) {
+        if(args == null || args.length == 0)
+            return;
         tabArguments.removeIf(str -> !Utils.startsWithIgnoreCase(str, args[args.length - 1]));
     }
 
