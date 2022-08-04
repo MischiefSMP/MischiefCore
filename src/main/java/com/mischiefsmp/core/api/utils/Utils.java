@@ -8,6 +8,15 @@ import net.md_5.bungee.api.chat.hover.content.Text;
 import java.util.List;
 
 public class Utils {
+
+    public static String[] array(String... args) {
+        return args;
+    }
+
+    public static Object[] array(Object... args) {
+        return args;
+    }
+
     public static TextComponent getHoverAndCMDText(String text, String hover, String command) {
         TextComponent txt = new TextComponent(text);
         if(hover != null)
