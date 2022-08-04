@@ -2,12 +2,15 @@ package com.mischiefsmp.core.api.commands;
 
 import com.mischiefsmp.core.MischiefCore;
 import com.mischiefsmp.core.api.MischiefPlugin;
+import com.mischiefsmp.core.api.utils.Utils;
 import lombok.Getter;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public abstract class MischiefCommand{
     private final MischiefCommand instance;
@@ -20,26 +23,53 @@ public abstract class MischiefCommand{
     public MischiefCommand(MischiefPlugin plugin) {
         instance = this;
         command = new Command(getLabel()) {
-            @Override
-            public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
-                String message = null;
+            private String[] removeFirst(String[] args) {
+                int newLength = args.length - 1;
+                String[] newArgs = new String[newLength];
+                System.arraycopy(args, 1, newArgs, 0, newLength);
+                return newArgs;
+            }
 
-                //Check for sub commands
+            private Command getSubCommand(String[] args) {
                 if(args.length != 0) {
                     for(String key : subCommands.keySet()) {
                         MischiefCommand cmd = subCommands.get(key);
-                        if(cmd != null && cmd.isSameLabelAlias(args[0])) {
-                            //We found a sub command! Yay!
-                            int newLength = args.length - 1;
-                            String[] newArgs = new String[newLength];
-                            System.arraycopy(args, 1, newArgs, 0, newLength);
-                            cmd.getCommand().execute(sender, commandLabel, newArgs);
-                            return true;
-                        }
+                        if(cmd != null && cmd.isSameLabelAlias(args[0]))
+                            return cmd.getCommand();
                     }
                 }
+                return null;
+            }
 
-                switch(instance.onCommand(sender, command, plugin, commandLabel, args)) {
+            @Override
+            public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
+                ArrayList<String> parts = null;
+                Command cmd = getSubCommand(args);
+
+                if(cmd != null)
+                    parts = new ArrayList<>(cmd.tabComplete(sender, label, removeFirst(args)));
+                if(parts == null) {
+                    parts = new ArrayList<>(instance.onTab(sender, plugin, args));
+                    for(String key : subCommands.keySet())
+                        parts.add(subCommands.get(key).getLabel());
+                }
+
+                Utils.removeTabArguments(args, parts);
+                return parts;
+            }
+
+                @Override
+            public boolean execute(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
+                String message = null;
+
+                //Check for sub commands
+                Command cmd = getSubCommand(args);
+                if(cmd != null) {
+                    cmd.execute(sender, label, removeFirst(args));
+                    return true;
+                }
+
+                switch(instance.onCommand(sender, command, plugin, label, args)) {
                     case NO_PERMISSION -> message = "cmd-no-perm";
                     case MISSING_ARGUMENTS -> message = "cmd-missing-arg";
                     case BAD_ARGUMENTS -> message = "cmd-bad-arg";
@@ -70,6 +100,7 @@ public abstract class MischiefCommand{
     }
 
     public abstract CommandResult onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull MischiefPlugin plugin, @NotNull String label, @NotNull String[] args);
+    public abstract List<String> onTab(@NotNull CommandSender sender, @NotNull MischiefPlugin plugin, @NotNull String[] args);
 
     public void addSubCommand(MischiefCommand command) {
         subCommands.put(command.getLabel(), command);
