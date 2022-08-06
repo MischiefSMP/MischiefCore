@@ -19,18 +19,24 @@ public abstract class MischiefPlugin extends JavaPlugin {
         //This is run once the server is fully started
     }
 
+    public void onLoad() {
+        init1_onLoad();
+    }
+
     public void onEnable() {
-        onLoad();
-        getServer().getScheduler().scheduleSyncDelayedTask(this, this::onFullLoad);
+        init2_onEnable();
+        getServer().getScheduler().scheduleSyncDelayedTask(this, this::init3_onDone);
     }
 
     public void onDisable() {
-        onUnload();
+        init4_onDisable();
     }
 
-    public abstract void onLoad();
-    public abstract void onFullLoad();
-    public abstract void onUnload();
+    public abstract void init1_onLoad();
+    public abstract void init2_onEnable();
+    public abstract void init3_onDone();
+    public abstract void init4_onDisable();
+
 
     public void setReloadFunction(Function function) {
         reloadFunction = function;
