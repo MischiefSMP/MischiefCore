@@ -1,4 +1,13 @@
-cmd-no-perm: "You do not have permission to run this command"
-cmd-missing-arg: "Missing arguments"
-cmd-bad-arg: "Bad arguments"
-cmd-server-error: "Error executing command"
+#Lines starting with default are supposed to be usable by other plugins as well
+#The default keyword should help me remember to not change them to something "Core" specific out of context
+default-cmd-no-perm: "You do not have permission to run this command"
+default-cmd-missing-arg: "Missing arguments"
+default-cmd-bad-arg: "Bad arguments"
+default-cmd-server-error: "Error executing command"
+
+default-help-title: "Available commands:"
+default-help-command: "- /%s"
+
+core-plugins-installed-title: "Installed plugins:"
+core-plugins-available-title: "Available plugins:"
+core-plugins-version: "v%s"
