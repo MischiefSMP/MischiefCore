@@ -10,12 +10,15 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.Field;
 
 public class CommandManager {
-    public static void registerCommand(@NotNull MischiefPlugin plugin, @NotNull MischiefCommand command) {
+    public static void registerCommand(@NotNull MischiefCommand command) {
+        MischiefPlugin plugin = command.getPlugin();
         try {
             Field bukkitCommandMap = Bukkit.getServer().getClass().getDeclaredField("commandMap");
             bukkitCommandMap.setAccessible(true);
             CommandMap commandMap = (CommandMap) bukkitCommandMap.get(Bukkit.getServer());
-            commandMap.register(command.getLabel(), command.getCommand());
+            commandMap.register(plugin.getName(), command.getCommand(command.getLabel()));
+            for(String alias : command.getAliases())
+                commandMap.register(plugin.getName(), command.getCommand(alias));
         } catch (NoSuchFieldException | IllegalAccessException e) {
             plugin.getLogManager().warn("Could not register command %s!", command.getLabel());
             plugin.getLogManager().warn(e.getMessage());

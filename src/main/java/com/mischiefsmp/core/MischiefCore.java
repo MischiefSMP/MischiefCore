@@ -16,7 +16,7 @@ public class MischiefCore extends MischiefPlugin {
     @Override
     public void init2_onEnable() {
         CommandManager.registerPermissions(PermissionContainer.class);
-        CommandManager.registerCommand(this, new CoreCommand(this));
+        CommandManager.registerCommand(new CoreCommand(this));
     }
 
     @Override
