@@ -63,6 +63,13 @@ public abstract class MischiefCommand{
         subCommands.put(command.getPlugin().getName(), command);
     }
 
+    public List<MischiefCommand> getSubCommands() {
+        ArrayList<MischiefCommand> cmds = new ArrayList<>();
+        for(String key : subCommands.keySet())
+            cmds.add(subCommands.get(key));
+        return cmds;
+    }
+
     //We use this system so that we can get the same command with a different label, for aliases
     public Command getCommand(String label) {
         return new Command(label) {
