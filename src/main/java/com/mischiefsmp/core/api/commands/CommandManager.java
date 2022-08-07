@@ -17,9 +17,8 @@ public class CommandManager {
             bukkitCommandMap.setAccessible(true);
             CommandMap commandMap = (CommandMap) bukkitCommandMap.get(Bukkit.getServer());
             commandMap.register(plugin.getName(), command.getExecutor());
-            //TODO: Rework with an own alias class that keeps its parent in there
-            //for(String alias : command.getAliases())
-              //  commandMap.register(plugin.getName(), command.getCommand(alias));
+            for(String alias : command.getAliases())
+                commandMap.register(plugin.getName(), new CommandAlias(alias, command).getExecutor());
         } catch (NoSuchFieldException | IllegalAccessException e) {
             plugin.getLogManager().warn("Could not register command %s!", command.getLabel());
             plugin.getLogManager().warn(e.getMessage());
