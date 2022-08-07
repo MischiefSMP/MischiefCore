@@ -2,8 +2,10 @@ package com.mischiefsmp.core.commands;
 
 import com.mischiefsmp.core.PermissionContainer;
 import com.mischiefsmp.core.api.MischiefPlugin;
+import com.mischiefsmp.core.api.PluginManager;
 import com.mischiefsmp.core.api.commands.CommandResult;
 import com.mischiefsmp.core.api.commands.MischiefCommand;
+import com.mischiefsmp.core.api.lang.LangManager;
 import com.mischiefsmp.core.api.utils.Utils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -30,6 +32,10 @@ public class CorePluginsCommand extends MischiefCommand {
 
     @Override
     public CommandResult onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull MischiefPlugin plugin, @NotNull String label, @NotNull String[] args) {
+        LangManager lm = plugin.getLangManager();
+        lm.sendString(sender, "core-plugins-installed-title");
+        for(MischiefPlugin pl : PluginManager.getMischiefPlugins())
+            lm.sendString(sender, pl.getName());
         return CommandResult.SUCCESS;
     }
 
