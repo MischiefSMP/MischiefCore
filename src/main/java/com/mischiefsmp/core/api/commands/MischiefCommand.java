@@ -99,7 +99,7 @@ public abstract class MischiefCommand{
 
                 //If a subcommand is found we forward the tabComplete to it
                 if(cmd != null)
-                    parts = new ArrayList<>(this.tabComplete(sender, label, removeFirst(args)));
+                    parts = new ArrayList<>(this.tabComplete(sender, cmd.getLabel(), removeFirst(args)));
                 if(parts == null && hasMainPermission(sender)) {
                     //If no subcommand is found & we have the permission for this command we run the onTab method
                     //and we add all subcommands (if the sender has the permission to run them)
@@ -124,7 +124,7 @@ public abstract class MischiefCommand{
                 //Check for sub commands
                 MischiefCommand cmd = getSubCommand(args);
                 if(cmd != null) {
-                    this.execute(sender, label, removeFirst(args));
+                    this.execute(sender, cmd.getLabel(), removeFirst(args));
                     return true;
                 }
 
