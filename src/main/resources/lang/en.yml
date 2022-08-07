@@ -10,4 +10,6 @@ default-help-command: "- /%s"
 
 core-plugins-installed-title: "Installed plugins:"
 core-plugins-available-title: "Available plugins:"
-core-plugins-version: "v%s"
+core-plugins-display: "> %s v%s"
+core-plugins-link: "[L]"
+core-plugins-download: "[D]"

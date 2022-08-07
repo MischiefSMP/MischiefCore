@@ -6,6 +6,7 @@ import com.mischiefsmp.core.api.PluginManager;
 import com.mischiefsmp.core.api.commands.CommandResult;
 import com.mischiefsmp.core.api.commands.MischiefCommand;
 import com.mischiefsmp.core.api.lang.LangManager;
+import com.mischiefsmp.core.api.utils.PluginInfo;
 import com.mischiefsmp.core.api.utils.Utils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -35,7 +36,12 @@ public class CorePluginsCommand extends MischiefCommand {
         LangManager lm = plugin.getLangManager();
         lm.sendString(sender, "core-plugins-installed-title");
         for(MischiefPlugin pl : PluginManager.getMischiefPlugins())
-            lm.sendString(sender, pl.getName());
+            lm.sendString(sender, "core-plugins-display", pl.getName(), pl.getDescription().getVersion());
+        lm.sendString(sender, "core-plugins-available-title");
+        //TODO: Make sure we only show plugins that can either be updated and or are not installed
+        //TODO: Make sure this isnt null
+        for(PluginInfo pl : PluginManager.getAvailablePlugins())
+            lm.sendString(sender, "core-plugins-display", pl.name(), pl.version());
         return CommandResult.SUCCESS;
     }
 
