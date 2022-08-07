@@ -11,13 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.math.BigInteger;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
@@ -37,7 +31,7 @@ public class MCUtils {
     }
 
     public static ArrayList<KeyValueStorage<String, Long>> getUsernameInfo(UUID uuid) {
-        String rawString = getJSONFromURL(String.format(USERNAME_API, uuid));
+        String rawString = Utils.getJSONFromURL(String.format(USERNAME_API, uuid));
         if(rawString != null) {
             ArrayList<KeyValueStorage<String, Long>> info = new ArrayList<>();
             JSONArray jsonData = new JSONArray(rawString);
@@ -52,22 +46,9 @@ public class MCUtils {
     }
 
     public static UUID getUserUUID(String username) {
-        String rawString = getJSONFromURL(String.format(UUID_API, username));
+        String rawString = Utils.getJSONFromURL(String.format(UUID_API, username));
         if(rawString != null)
             return UUIDFromString(new JSONObject(rawString).getString("id"));
-        return null;
-    }
-
-    private static String getJSONFromURL(String url) {
-        try {
-            HttpRequest request = HttpRequest.newBuilder(new URI(url)).header("accept", "application/json").build();
-            HttpClient client = HttpClient.newHttpClient();
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-            return response.statusCode() == 200 ? response.body() : null;
-        } catch(URISyntaxException | IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
         return null;
     }
 

@@ -5,6 +5,12 @@ import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Text;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,5 +48,18 @@ public class Utils {
             if (i == nr)
                 return true;
         return false;
+    }
+
+    public static String getJSONFromURL(String url) {
+        try {
+            HttpRequest request = HttpRequest.newBuilder(new URI(url)).header("accept", "application/json").build();
+            HttpClient client = HttpClient.newHttpClient();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            return response.statusCode() == 200 ? response.body() : null;
+        } catch(URISyntaxException | IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
