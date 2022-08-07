@@ -8,3 +8,9 @@ General features:
 - Every MischiefPlugin has a LogManager, LangManager (if available) publicly available on reference
 - Every MischiefPlugin registers itself in a common Database, so that other MischiefPlugins can access eachother easily
 - Make sure FileUtils throws more exceptions, we shouldnt expect everything to go smoothly
+
+
+07.08:
+- Make command class instance specific again, and rework alias system, maybe with a small utility class that knows its parent.
+So each Alias class has its parent class that it can then call.
+That would work :)
