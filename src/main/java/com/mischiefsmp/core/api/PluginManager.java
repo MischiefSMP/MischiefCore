@@ -6,6 +6,7 @@ import com.mischiefsmp.core.api.utils.PluginNotFoundException;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PluginManager {
@@ -46,6 +47,13 @@ public class PluginManager {
         if(mischiefPlugins.containsKey(pluginClass))
             return mischiefPlugins.get(pluginClass);
         throw pnfe(pluginClass);
+    }
+
+    public static ArrayList<MischiefPlugin> getMischiefPlugins() {
+        ArrayList<MischiefPlugin> arr = new ArrayList<>();
+        for(Class<?> key : mischiefPlugins.keySet())
+            arr.add(mischiefPlugins.get(key));
+        return arr;
     }
 
     private static PluginNotFoundException pnfe(Class<?> clazz) {
