@@ -7,11 +7,13 @@ import com.mischiefsmp.core.api.utils.TimeUtils;
 import com.mischiefsmp.core.api.utils.Utils;
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.List;
 
 public class ConfigManager {
 
@@ -62,14 +64,61 @@ public class ConfigManager {
         }
     }
 
+    public static FileConfiguration getFCFromConfigSection(ConfigSection section) {
+        return getFC(section);
+    }
+
+    public static FileConfiguration getFCFromConfigFile(ConfigFile file) {
+        return getFC(file);
+    }
+
+    private static FileConfiguration getFC(Object file) {
+        FileConfiguration test = new YamlConfiguration();
+        try {
+            for (Field field : file.getClass().getDeclaredFields()) {
+                field.setAccessible(true);
+                ConfigValue annotation = field.getAnnotation(ConfigValue.class);
+                if (annotation != null) {
+                    Object obj = field.get(file);
+                    if (obj instanceof List<?> l) {
+                        if (l.size() > 0 && l.get(0) instanceof ConfigSection) {
+                            //ConfigFile ArrayList
+                            for (Object cfgObj : l) {
+                                ConfigSection cfg = (ConfigSection) cfgObj;
+                                test.set(cfg.getLabel(), getFC(cfg));
+                            }
+                        }
+                    } else {
+                        test.set(annotation.path(), field.get(file));
+                    }
+                }
+            }
+        } catch(Exception e) {
+
+        }
+            return test;
+    }
+
     public static void save(ConfigFile file) {
         FileConfiguration fc = FileUtils.loadConfig(file.getPlugin(), file.getLocalPath());
         try {
             for(Field field : file.getClass().getDeclaredFields()) {
                 field.setAccessible(true);
                 ConfigValue annotation = field.getAnnotation(ConfigValue.class);
-                if(annotation != null)
-                    fc.set(annotation.path(), field.get(file));
+                if(annotation != null) {
+                    Object obj = field.get(file);
+                    if(obj instanceof List<?> l) {
+                        if(l.size() > 0 && l.get(0) instanceof ConfigFile) {
+                            //ConfigFile ArrayList
+                            for(Object cfgObj : l) {
+                                ConfigFile cfg = (ConfigFile) cfgObj;
+                                //cfg.
+                            }
+                        }
+                    } else {
+                        fc.set(annotation.path(), field.get(file));
+                    }
+                }
             }
             FileUtils.save(fc, file.getPlugin(), file.getLocalPath());
         } catch(Exception exception) {
