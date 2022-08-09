@@ -64,62 +64,52 @@ public class ConfigManager {
         }
     }
 
-    public static FileConfiguration getFCFromConfigSection(ConfigSection section) {
+    public static FileConfiguration getFCFromConfigSection(ConfigSection section) throws IllegalAccessException {
         return getFC(section);
     }
 
-    public static FileConfiguration getFCFromConfigFile(ConfigFile file) {
+    public static FileConfiguration getFCFromConfigFile(ConfigFile file) throws IllegalAccessException {
         return getFC(file);
     }
 
-    private static FileConfiguration getFC(Object file) {
-        FileConfiguration test = new YamlConfiguration();
-        try {
-            for (Field field : file.getClass().getDeclaredFields()) {
-                field.setAccessible(true);
-                ConfigValue annotation = field.getAnnotation(ConfigValue.class);
-                if (annotation != null) {
-                    Object obj = field.get(file);
-                    if (obj instanceof List<?> l) {
-                        if (l.size() > 0 && l.get(0) instanceof ConfigSection) {
-                            //ConfigFile ArrayList
-                            for (Object cfgObj : l) {
-                                ConfigSection cfg = (ConfigSection) cfgObj;
-                                test.set(cfg.getLabel(), getFC(cfg));
-                            }
+    private static void saveIntoFC(FileConfiguration fc, ConfigSection section) throws IllegalAccessException {
+        FileConfiguration newFc = getFC(section);
+        if(section.getLabel() != null && !section.getLabel().isEmpty()) {
+            fc.set(section.getLabel(), newFc);
+        } else {
+            for(String key : newFc.getKeys(true)) {
+                fc.set(key, newFc.get(key));
+            }
+        }
+    }
+
+    private static FileConfiguration getFC(Object file) throws IllegalAccessException {
+        FileConfiguration fc = new YamlConfiguration();
+        for (Field field : file.getClass().getDeclaredFields()) {
+            field.setAccessible(true);
+            ConfigValue annotation = field.getAnnotation(ConfigValue.class);
+            if (annotation != null) {
+                Object obj = field.get(file);
+                //ConfigFile ArrayList
+                if (obj instanceof List<?> l) {
+                    if (l.size() > 0 && l.get(0) instanceof ConfigSection) {
+                        for (Object cfgObj : l) {
+                            ConfigSection cfg = (ConfigSection) cfgObj;
+                            saveIntoFC(fc, cfg);
                         }
-                    } else {
-                        test.set(annotation.path(), field.get(file));
                     }
+                //Everything else
+                } else {
+                    fc.set(annotation.path(), field.get(file));
                 }
             }
-        } catch(Exception e) {
-
         }
-            return test;
+        return fc;
     }
 
     public static void save(ConfigFile file) {
-        FileConfiguration fc = FileUtils.loadConfig(file.getPlugin(), file.getLocalPath());
         try {
-            for(Field field : file.getClass().getDeclaredFields()) {
-                field.setAccessible(true);
-                ConfigValue annotation = field.getAnnotation(ConfigValue.class);
-                if(annotation != null) {
-                    Object obj = field.get(file);
-                    if(obj instanceof List<?> l) {
-                        if(l.size() > 0 && l.get(0) instanceof ConfigFile) {
-                            //ConfigFile ArrayList
-                            for(Object cfgObj : l) {
-                                ConfigFile cfg = (ConfigFile) cfgObj;
-                                //cfg.
-                            }
-                        }
-                    } else {
-                        fc.set(annotation.path(), field.get(file));
-                    }
-                }
-            }
+            FileConfiguration fc = getFCFromConfigFile(file);
             FileUtils.save(fc, file.getPlugin(), file.getLocalPath());
         } catch(Exception exception) {
             file.getPlugin().getLogManager().error("Error trying to save %s!", file);
